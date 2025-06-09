@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Digging Hole</title>
+  <link rel="icon" type="image/x-icon" href="static/img/procesamiento-de-datos.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8c471;
+      margin: 0;
+      color: #333;
+    }
+    header {
+      background: #C07A00 ;
+      color: #fff;
+      text-align: center;
+      padding: 2rem 0;
+    }
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .question {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .question h2 {
+      margin: 0;
+      padding: 1rem;
+      background: #5f6c16;
+      color: #fff;
+      font-size: 1.25rem;
+      grid-column: 1 / -1;
+    }
+    .question .content {
+      padding: 1rem 1.5rem;
+    }
+    .question img {
+      width: 100%;
+      height: auto;
+      margin-top: 1rem;
+      border-radius: 4px;
+    }
+    footer {
+  background-color: #A67B5B;
+  color: var(--bg-card);
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-top: 4px solid var(--accent-1);
+  font-size: 0.9rem;
+}
+
+footer .footer-content p {
+  margin: 0.5rem 0;
+}
+
+footer strong {
+  color: var(--accent-2);
+}
+
+@media (min-width: 600px) {
+      .question {
+        grid-template-columns: 2fr 3fr;
+      }
+      .question .content {
+        grid-column: 1 / 2;
+      }
+      .question img {
+        grid-column: 2 / 3;
+        align-self: start;
+        margin-top: 0;
+      }
+    }
+    /* 1. Importar Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto+Slab:wght@700&display=swap');
+
+:root {
+  /* Colores */
+  --bg-page:    #F4F4F1;
+  --bg-header:  #2E3B4E;
+  --bg-card:    #FFFFFF;
+  --text-main:  #333333;
+  --accent-1:   #C07A00;
+  --accent-2:   #A67B5B;
+  --shadow:     rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+header {
+  background: var(--bg-header);
+  color: var(--bg-card);
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 2px 8px var(--shadow);
+  font-family: 'Roboto Slab', serif;
+}
+
+header h1 {
+  margin: 0 0 .5rem;
+  font-size: 2rem;
+}
+
+header p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Contenedor general más estrecho */
+main {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Tarjetas */
+.question {
+  background-color: var(--bg-card);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.question h2 {
+  margin: 0;
+  padding: 1rem;
+  background-color: var(--accent-2);
+  color: var(--bg-card);
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.25rem;
+}
+
+.question .content {
+  padding: 1.5rem;
+}
+
+.question .content p {
+  margin: 0 0 1rem;
+}
+
+.question .content ul,
+.question .content ol {
+  margin: 0 0 1.5rem 1.5rem;
+}
+
+/* Imágenes de tarjeta */
+.question img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: -1px; /* para que no muestre borde blanco entre text y img */
+}
+
+/* Footer */
+footer {
+  background-color: var(--bg-header);
+  color: var(--bg-card);
+  padding: 2rem 1rem;
+  border-top: 4px solid var(--accent-1);
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 2rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0;
+}
+
+.footer-content strong {
+  color: var(--accent-1);
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Digging Hole</h1>
+    <p>Proyecto final de Ingeniería Civil de Minas Udec</p>
+  </header>
+
+  <main>
+
+    <!-- 1 -->
+    <section class="question">
+      <h2>1. ¿Qué es una mina?</h2>
+      <div class="content">
+        <p>Una mina es una instalación de ingeniería diseñada para explotar depósitos de minerales, metales o carbón de la corteza terrestre.</p>
+        <ul>
+          <li><strong>Minas a cielo abierto:</strong> extracción por capas de roca y suelo cuando el depósito está cerca de la superficie.</li>
+          <li><strong>Minas subterráneas:</strong> galerías y túneles para vetas profundas, con sistemas de ventilación y drenaje.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 1.jpg" alt="Panorámica de mina a cielo abierto">
+    </section>
+
+    <!-- 2 -->
+    <section class="question">
+      <h2>2. ¿Todos los yacimientos se extraen de la misma forma?</h2>
+      <div class="content">
+        <p>No. La técnica varía según:</p>
+        <ul>
+          <li><strong>Geometría del yacimiento:</strong> vetas horizontales, verticales o depósitos masivos.</li>
+          <li><strong>Propiedades del mineral:</strong> dureza, concentración y asociación mineral.</li>
+          <li><strong>Costo y acceso:</strong> infraestructura cercana y precio de mercado.</li>
+        </ul>
+        <p>Por ejemplo:</p>
+        <ul>
+          <li>Cobre a cielo abierto si hay un depósito extenso y de alta ley.</li>
+          <li>Carbón subterráneo en galerías para vetas delgadas.</li>
+          <li>Yeso y caliza a cielo abierto por baja dureza.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 2.jpeg" alt="Comparación de métodos de extracción">
+    </section>
+
+    <!-- 3 -->
+    <section class="question">
+      <h2>3. ¿Cómo se sabe dónde encontrar mineral?</h2>
+      <div class="content">
+        <ol>
+          <li><strong>Prospección geológica:</strong> mapeo de afloramientos.</li>
+          <li><strong>Geoquímica:</strong> muestreo de suelos y aguas para detectar anomalías.</li>
+          <li><strong>Geofísica:</strong> sísmica, magnética y gravimetría para “ver” bajo tierra.</li>
+          <li><strong>Perforaciones exploratorias:</strong> testigos de sondaje para confirmar ley y continuidad.</li>
+        </ol>
+        <p>Luego se modela en 3D y se evalúa la viabilidad económica.</p>
+      </div>
+      <img src="static/img/pregunta 3.jpg" alt="Perforadora exploratoria en terreno">
+    </section>
+
+    <!-- 4 -->
+    <section class="question">
+      <h2>4. ¿Cómo se extrae y transporta el mineral de la tierra?</h2>
+      <div class="content">
+        <p><strong>Extracción:</strong></p>
+        <ul>
+          <li>Voladuras controladas o rompe-rocas hidráulicos.</li>
+          <li>Carga con palas mecánicas o cargadores frontales.</li>
+        </ul>
+        <p><strong>Transporte:</strong></p>
+        <ul>
+          <li>Camiones de gran tonelaje (hasta 400 t).</li>
+          <li>Cintas transportadoras en superficie.</li>
+          <li>Trenes automáticos o fajas en subterráneo.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 4.jpg" alt="Camiones mineros y cintas transportadoras">
+    </section>
+
+    <!-- 5 -->
+    <section class="question">
+      <h2>5. ¿Cómo se extrae el metal desde la roca?</h2>
+      <div class="content">
+        <ol>
+          <li>Trituración primaria y secundaria.</li>
+          <li>Molienda fina en molinos SAG o de bolas.</li>
+          <li><strong>Flotación:</strong> separación hidrofóbica.</li>
+          <li><strong>Lixiviación:</strong> disolución con reactivos (cianuro, ácido sulfúrico).</li>
+          <li><strong>Extracción por solventes y electrodeposición:</strong> metal puro &gt; 99 %.</li>
+        </ol>
+      </div>
+      <img src="static/img/pregunta 5.jpg" alt="Proceso de flotación en planta de beneficio">
+    </section>
+
+    <!-- 6 -->
+    <section class="question">
+      <h2>6. ¿Cómo se asegura que la mina no se va a derrumbar?</h2>
+      <div class="content">
+        <ul>
+          <li>Diseño de pilares de roca y volúmenes de extracción.</li>
+          <li>Refuerzo con pernos, cable bolts y shotcrete.</li>
+          <li>Monitoreo con extensómetros e inclinómetros.</li>
+          <li>Control de presión de agua mediante drenaje y bombas.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 6.jpg" alt="Refuerzo con pernos y shotcrete en mina">
+    </section>
+
+    <!-- 7 -->
+    <section class="question">
+      <h2>7. ¿Cuáles son los impactos ambientales de una mina?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Cambio de paisaje:</strong> bancos y excavaciones.</li>
+          <li><strong>Consumo y contaminación de agua:</strong> relaves ácidos.</li>
+          <li><strong>Emisiones:</strong> polvo, gases y ruido.</li>
+          <li><strong>Relaves:</strong> depósitos de desechos que pueden lixiviar metales.</li>
+          <li><strong>Pérdida de biodiversidad:</strong> destrucción de hábitats.</li>
+        </ul>
+        <p>Mitigación: tratamiento de efluentes, recirculación de agua y planes de cierre y revegetación.</p>
+      </div>
+      <img src="static/img/pregunta 7.jpg" alt="Tanques de relaves junto a planta de tratamiento">
+    </section>
+
+    <!-- 8 -->
+    <section class="question">
+      <h2>8. ¿Cuáles son los impactos sociales de la minería?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Generación de empleo y desarrollo:</strong> infraestructura, salud y educación.</li>
+          <li><strong>Desplazamientos:</strong> reasentamiento de comunidades locales.</li>
+          <li><strong>Conflictos por recursos:</strong> tensiones sobre uso de agua y tierras.</li>
+          <li><strong>Inversión comunitaria:</strong> fondos de desarrollo y capacitación técnica.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 8.jpg" alt="Reunión comunitaria y proyecto minero">
+    </section>
+
+    <!-- 9 -->
+    <section class="question">
+      <h2>9. ¿Qué tecnologías se usarán en la minería del futuro?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Vehículos autónomos y drones de perforación:</strong> seguridad y eficiencia.</li>
+          <li><strong>IoT y sensores en tiempo real:</strong> monitoreo de vibraciones y presión.</li>
+          <li><strong>Gemelos digitales:</strong> simulación y optimización de procesos.</li>
+          <li><strong>Biolixiviación y nanotecnología:</strong> extracción limpia de baja ley.</li>
+          <li><strong>Inteligencia Artificial:</strong> mantenimiento predictivo y diseño de voladuras.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 9.jpg" alt="Tecnología minera del futuro">
+    </section>
+
+    <!-- 10 -->
+    <section class="question">
+      <h2>10. ¿Para qué se usan los metales que extraemos?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Acero (hierro):</strong> construcción de edificios y puentes.</li>
+          <li><strong>Aluminio:</strong> transporte ligero y envases.</li>
+          <li><strong>Cobre y oro:</strong> conductividad eléctrica y electrónica.</li>
+          <li><strong>Litio y cobalto:</strong> baterías para energías renovables.</li>
+          <li><strong>Platino y paladio:</strong> catalizadores y procesos químicos.</li>
+          <li><strong>Uranio:</strong> generación nuclear.</li>
+        </ul>
+      </div>
+      <img src="static/img/imagen 10.jpg" alt="Diversos productos hechos con metales">
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p class="integrantes">
+        <strong>Integrantes:</strong>
+        Agustín Quezada ; Mya Sepúlveda ; Benjamín Lopez ; Víctor Medina ; Joaquín Valeria ; nombre desconocido
+      </p>
+      <p class="profesor">
+        <strong>Profesor:</strong> Jorge Luis Palma Villagrán
+      </p>
+      <p class="universidad">
+        <strong>Universidad De Concepción</strong>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
+  
