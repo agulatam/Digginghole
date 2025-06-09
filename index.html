@@ -5,6 +5,7 @@
   <title>Digging Hole</title>
   <link rel="icon" type="image/x-icon" href="static/img/procesamiento-de-datos.png">
   <style>
+    
     body {
       font-family: Arial, sans-serif;
       background: #f8c471;
@@ -199,10 +200,128 @@ footer {
 .footer-content strong {
   color: var(--accent-1);
 }
+/* Lightbox overlay */
+#lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenedor central */
+.lb-content {
+  position: relative;
+  background: #fff;
+  max-width: 90%; max-height: 90%;
+  display: flex;
+  align-items: stretch;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Imagen grande + info */
+.lb-slide {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+#lb-img {
+  flex: 1;
+  object-fit: contain;
+  max-height: 90vh;
+}
+#lb-info {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  color: #333;
+  background: #F4F4F1;
+}
+
+/* Botones */
+.lb-close,
+.lb-nav {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: .5rem 1rem;
+  z-index: 1;
+}
+.lb-close {
+  top: 0; right: 0;
+  color: #C07A00;
+  font-size: 2.5rem;
+}
+.lb-prev {
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+}
+.lb-next {
+  top: 50%; right: 0;
+  transform: translateY(-50%);
+}
 
   </style>
 </head>
 <body>
+<script>
+  // 1. Recopilamos los slides desde el DOM
+  const slides = [];
+  document.querySelectorAll('.question').forEach((card, i) => {
+    const imgEl = card.querySelector('img');
+    const infoEl = card.querySelector('.content');
+    const title  = card.querySelector('h2').textContent;
+    slides.push({
+      img: imgEl.src,
+      info: `<h2>${title}</h2>` + infoEl.innerHTML
+    });
+    card.dataset.index = i;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => openLightbox(i));
+  });
+
+  // 2. Elementos del lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lb-img');
+  const lbInfo    = document.getElementById('lb-info');
+  const btnClose  = document.querySelector('.lb-close');
+  const btnPrev   = document.querySelector('.lb-prev');
+  const btnNext   = document.querySelector('.lb-next');
+  let currentIndex = 0;
+
+  // 3. Mostrar un slide concreto
+  function showSlide(idx) {
+    currentIndex = (idx + slides.length) % slides.length;
+    lbImg.src        = slides[currentIndex].img;
+    lbInfo.innerHTML = slides[currentIndex].info;
+  }
+
+  // 4. Abrir Lightbox
+  function openLightbox(idx) {
+    showSlide(idx);
+    lightbox.style.display = 'flex';
+  }
+
+  // 5. Cerrar
+  btnClose.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+  });
+  // también cierras clicando fuera del contenido
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) lightbox.style.display = 'none';
+  });
+
+  // 6. Navegación
+  btnPrev.addEventListener('click', () => showSlide(currentIndex - 1));
+  btnNext.addEventListener('click', () => showSlide(currentIndex + 1));
+</script>
 
   <header>
     <h1>Digging Hole</h1>
@@ -384,6 +503,18 @@ footer {
       </p>
     </div>
   </footer>
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <div class="lb-content">
+      <button class="lb-close">&times;</button>
+      <button class="lb-nav lb-prev">&#10094;</button>
+      <div class="lb-slide">
+        <img id="lb-img" src="" alt="Slide grande">
+        <div id="lb-info"></div>
+      </div>
+      <button class="lb-nav lb-next">&#10095;</button>
+    </div>
+  </div>
 
 </body>
 </html>

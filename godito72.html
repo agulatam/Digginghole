@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Digging Hole</title>
+  <link rel="icon" type="image/x-icon" href="static/img/procesamiento-de-datos.png">
+
+  <style>
+    /* 1. Importar Fuentes */
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto+Slab:wght@700&display=swap');
+
+    :root {
+      /* Colores */
+      --bg-page:    #F4F4F1;
+      --bg-header:  #2E3B4E;
+      --bg-card:    #FFFFFF;
+      --text-main:  #333333;
+      --accent-1:   #C07A00;
+      --accent-2:   #A67B5B;
+      --shadow:     rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-header);
+      color: var(--bg-card);
+      text-align: center;
+      padding: 2rem 1rem;
+      box-shadow: 0 2px 8px var(--shadow);
+      font-family: 'Roboto Slab', serif;
+    }
+    header h1 {
+      margin: 0 0 .5rem;
+      font-size: 2rem;
+    }
+    header p {
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    /* Contenedor principal */
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Tarjetas de pregunta */
+    .question {
+      background-color: var(--bg-card);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .question:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px var(--shadow);
+    }
+    .question h2 {
+      margin: 0;
+      padding: 1rem;
+      background-color: var(--accent-2);
+      color: var(--bg-card);
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.25rem;
+      grid-column: 1 / -1;
+    }
+    .question .content {
+      padding: 1.5rem;
+    }
+    .question .content p {
+      margin: 0 0 1rem;
+    }
+    .question .content ul,
+    .question .content ol {
+      margin: 0 0 1.5rem 1.5rem;
+    }
+    .question img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-top: -1px; /* quita línea blanca entre texto e imagen */
+      border-radius: 0 0 8px 8px;
+    }
+
+    @media (min-width: 600px) {
+      .question {
+        grid-template-columns: 2fr 3fr;
+      }
+      .question .content {
+        grid-column: 1 / 2;
+      }
+      .question img {
+        grid-column: 2 / 3;
+        margin-top: 0;
+        border-radius: 0 0 8px 0;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--bg-header);
+      color: var(--bg-card);
+      padding: 2rem 1rem;
+      border-top: 4px solid var(--accent-1);
+    }
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 2rem;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    .footer-content p {
+      margin: 0;
+    }
+    .footer-content strong {
+      color: var(--accent-1);
+    }
+
+    /* Lightbox overlay */
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .lb-content {
+      position: relative;
+      background: #fff;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .lb-slide {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    #lb-img {
+      flex: 1;
+      object-fit: contain;
+      max-height: 90vh;
+    }
+    #lb-info {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      background: var(--bg-page);
+    }
+    .lb-close,
+    .lb-nav {
+      position: absolute;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: .5rem 1rem;
+      z-index: 1;
+    }
+    .lb-close {
+      top: 0; right: 0;
+      color: var(--accent-1);
+      font-size: 2.5rem;
+    }
+    .lb-prev {
+      top: 50%; left: 0;
+      transform: translateY(-50%);
+    }
+    .lb-next {
+      top: 50%; right: 0;
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Digging Hole</h1>
+    <p>Proyecto final de Ingeniería Civil de Minas UdeC</p>
+  </header>
+
+  <main>
+    <!-- 1 -->
+    <section class="question">
+      <h2>1. ¿Qué es una mina?</h2>
+      <div class="content">
+        <p>Una mina es una instalación de ingeniería diseñada para explotar depósitos de minerales, metales o carbón de la corteza terrestre.</p>
+        <ul>
+          <li><strong>Minas a cielo abierto:</strong> extracción por capas de roca y suelo cuando el depósito está cerca de la superficie.</li>
+          <li><strong>Minas subterráneas:</strong> galerías y túneles para vetas profundas, con sistemas de ventilación y drenaje.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 1.jpg" alt="Panorámica de mina a cielo abierto">
+    </section>
+
+    <!-- 2 -->
+    <section class="question">
+      <h2>2. ¿Todos los yacimientos se extraen de la misma forma?</h2>
+      <div class="content">
+        <p>No. La técnica varía según:</p>
+        <ul>
+          <li><strong>Geometría:</strong> vetas horizontales, verticales o depósitos masivos.</li>
+          <li><strong>Propiedades:</strong> dureza, concentración y asociación mineral.</li>
+          <li><strong>Costo y acceso:</strong> infraestructura y precio de mercado.</li>
+        </ul>
+        <p>Por ejemplo:</p>
+        <ul>
+          <li>Cobre a cielo abierto si hay un depósito extenso y de alta ley.</li>
+          <li>Carbón subterráneo en galerías para vetas delgadas.</li>
+          <li>Yeso y caliza a cielo abierto por baja dureza.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 2.jpeg" alt="Métodos de extracción">
+    </section>
+
+    <!-- 3 -->
+    <section class="question">
+      <h2>3. ¿Cómo se sabe dónde encontrar mineral?</h2>
+      <div class="content">
+        <ol>
+          <li><strong>Prospección geológica:</strong> mapeo de afloramientos.</li>
+          <li><strong>Geoquímica:</strong> muestreo de suelos y aguas.</li>
+          <li><strong>Geofísica:</strong> sísmica, magnética y gravimetría.</li>
+          <li><strong>Perforaciones exploratorias:</strong> testigos de sondaje.</li>
+        </ol>
+        <p>Luego se modela en 3D y se evalúa la viabilidad económica.</p>
+      </div>
+      <img src="static/img/pregunta 3.jpg" alt="Exploración geológica">
+    </section>
+
+    <!-- 4 -->
+    <section class="question">
+      <h2>4. ¿Cómo se extrae y transporta el mineral?</h2>
+      <div class="content">
+        <p><strong>Extracción:</strong></p>
+        <ul>
+          <li>Voladuras controladas o rompe-rocas hidráulicos.</li>
+          <li>Carga con palas mecánicas o cargadores frontales.</li>
+        </ul>
+        <p><strong>Transporte:</strong></p>
+        <ul>
+          <li>Camiones de gran tonelaje (hasta 400 t).</li>
+          <li>Cintas transportadoras en superficie.</li>
+          <li>Trenes automáticos o fajas en subterráneo.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 4.jpg" alt="Transporte de mineral">
+    </section>
+
+    <!-- 5 -->
+    <section class="question">
+      <h2>5. ¿Cómo se extrae el metal desde la roca?</h2>
+      <div class="content">
+        <ol>
+          <li>Trituración primaria y secundaria.</li>
+          <li>Molienda fina en molinos SAG o de bolas.</li>
+          <li><strong>Flotación:</strong> separación hidrofóbica.</li>
+          <li><strong>Lixiviación:</strong> disolución con reactivos.</li>
+          <li><strong>Solventes y electrodeposición:</strong> metal puro &gt; 99 %.</li>
+        </ol>
+      </div>
+      <img src="static/img/pregunta 5.jpg" alt="Planta de beneficio">
+    </section>
+
+    <!-- 6 -->
+    <section class="question">
+      <h2>6. ¿Cómo se asegura que la mina no se derrumbe?</h2>
+      <div class="content">
+        <ul>
+          <li>Diseño de pilares y volúmenes de extracción.</li>
+          <li>Refuerzo con pernos, cable bolts y shotcrete.</li>
+          <li>Monitoreo con extensómetros e inclinómetros.</li>
+          <li>Control de presión de agua y drenaje.</li>
+        </ul>
+      </div>
+      <img src="static/img/pregunta 6.jpg" alt="Seguridad geotécnica">
+    </section>
+
+    <!-- 7 -->
+    <section class="question">
+      <h2>7. ¿Cuáles son los impactos ambientales?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Cambio de paisaje:</strong> bancos y excavaciones.</li>
+          <li><strong>Consumo y contaminación de agua:</strong> relaves ácidos.</li>
+          <li><strong>Emisiones:</strong> polvo, gases y ruido.</li>
+          <li><strong>Relaves:</strong> depósitos de desechos lixiviables.</li>
+          <li><strong>Pérdida de biodiversidad:</strong> destrucción de hábitats.</li>
+        </ul>
+        <p>Mitigación: tratamiento de efluentes, recirculación de agua y planes de cierre y revegetación.</p>
+      </div>
+      <img src="static/img/pregunta 7.jpg" alt="Impacto ambiental">
+    </section>
+
+    <!-- 8 -->
+    <section class="question">
+      <h2>8. ¿Cuáles son los impactos sociales?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Empleo y desarrollo:</strong> infraestructura, salud y educación.</li>
+          <li><strong>Desplazamientos:</strong> reasentamiento de comunidades.</li>
+          <li><strong>Conflictos por recursos:</strong> uso de agua y tierras.</li>
+          <li><strong>Inversión comunitaria:</strong> capacitación y fondos locales.</li>
+        </ul>
+        <p>Se gestionan con mesas de diálogo, convenios y responsabilidad social.</p>
+      </div>
+      <img src="static/img/pregunta 8.jpg" alt="Impacto social">
+    </section>
+
+    <!-- 9 -->
+    <section class="question">
+      <h2>9. ¿Qué tecnologías trae la minería 4.0?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Vehículos autónomos y drones:</strong> mayor seguridad.</li>
+          <li><strong>IoT y sensores:</strong> monitoreo en tiempo real.</li>
+          <li><strong>Gemelos digitales:</strong> simulaciones precisas.</li>
+          <li><strong>Biolixiviación:</strong> extracción limpia.</li>
+          <li><strong>IA y analítica:</strong> mantenimiento predictivo.</li>
+        </ul>
+        <p>Estas herramientas buscan eficiencia, seguridad y menor huella ambiental.</p>
+      </div>
+      <img src="static/img/pregunta 9.jpg" alt="Minería 4.0">
+    </section>
+
+    <!-- 10 -->
+    <section class="question">
+      <h2>10. ¿Para qué usamos los metales?</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Acero:</strong> construcción y transporte.</li>
+          <li><strong>Aluminio:</strong> aeronáutica y envases.</li>
+          <li><strong>Cobre y oro:</strong> electrónica y cables.</li>
+          <li><strong>Litio y cobalto:</strong> baterías.</li>
+          <li><strong>Platino y paladio:</strong> catalizadores.</li>
+          <li><strong>Uranio:</strong> energía nuclear.</li>
+        </ul>
+        <p>Son la base de infraestructura, tecnología y energías limpias.</p>
+      </div>
+      <img src="static/img/imagen 10.jpg" alt="Usos de metales">
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p><strong>Integrantes:</strong> Agustín Quezada ; Mya Sepúlveda ; Benjamín Lopez ; Víctor Medina ; Joaquín Valeria ; nombre desconocido</p>
+      <p><strong>Profesor:</strong> Jorge Luis Palma Villagrán</p>
+      <p><strong>Universidad De Concepción</strong></p>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <div class="lb-content">
+      <button class="lb-close">&times;</button>
+      <button class="lb-nav lb-prev">&#10094;</button>
+      <div class="lb-slide">
+        <img id="lb-img" src="" alt="Slide grande">
+        <div id="lb-info"></div>
+      </div>
+      <button class="lb-nav lb-next">&#10095;</button>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const slides = [];
+    document.querySelectorAll('.question').forEach((card, i) => {
+      const imgEl = card.querySelector('img');
+      const infoEl = card.querySelector('.content');
+      const title  = card.querySelector('h2').textContent;
+      slides.push({
+        img: imgEl.src,
+        info: `<h2>${title}</h2>` + infoEl.innerHTML
+      });
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => openLightbox(i));
+    });
+
+    const lightbox = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lb-img');
+    const lbInfo    = document.getElementById('lb-info');
+    const btnClose  = document.querySelector('.lb-close');
+    const btnPrev   = document.querySelector('.lb-prev');
+    const btnNext   = document.querySelector('.lb-next');
+    let currentIndex = 0;
+
+    function showSlide(idx) {
+      currentIndex = (idx + slides.length) % slides.length;
+      lbImg.src        = slides[currentIndex].img;
+      lbInfo.innerHTML = slides[currentIndex].info;
+    }
+
+    function openLightbox(idx) {
+      showSlide(idx);
+      lightbox.style.display = 'flex';
+    }
+
+    btnClose.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+    });
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) lightbox.style.display = 'none';
+    });
+    btnPrev.addEventListener('click', () => showSlide(currentIndex - 1));
+    btnNext.addEventListener('click', () => showSlide(currentIndex + 1));
+  });
+  </script>
+
+</body>
+</html>
