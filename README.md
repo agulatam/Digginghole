@@ -25,6 +25,7 @@ Proyecto final de Ingeniería Civil de Minas - Universidad de Concepción
 - HTML5 y CSS3 (no requiere frameworks)
 - Fuentes de Google Fonts
 - Imágenes ilustrativas en `/static/img/`
+- Animaciones on-scroll con IntersectionObserver (fade-in)
 
 ## Estructura del proyecto
 
