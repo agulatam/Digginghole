@@ -195,6 +195,17 @@
       top: 50%; right: 0;
       transform: translateY(-50%);
     }
+
+    /* Scroll fade-in animation */
+    .scroll-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .scroll-fade.visible {
+      opacity: 1;
+      transform: none;
+    }
   </style>
 </head>
 <body>
@@ -206,7 +217,7 @@
 
   <main>
     <!-- 1 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>1. ¿Qué es una mina?</h2>
       <div class="content">
         <p>Una mina es una instalación de ingeniería diseñada para explotar depósitos de minerales, metales o carbón de la corteza terrestre.</p>
@@ -219,7 +230,7 @@
     </section>
 
     <!-- 2 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>2. ¿Todos los yacimientos se extraen de la misma forma?</h2>
       <div class="content">
         <p>No. La técnica varía según:</p>
@@ -239,7 +250,7 @@
     </section>
 
     <!-- 3 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>3. ¿Cómo se sabe dónde encontrar mineral?</h2>
       <div class="content">
         <ol>
@@ -254,7 +265,7 @@
     </section>
 
     <!-- 4 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>4. ¿Cómo se extrae y transporta el mineral?</h2>
       <div class="content">
         <p><strong>Extracción:</strong></p>
@@ -273,7 +284,7 @@
     </section>
 
     <!-- 5 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>5. ¿Cómo se extrae el metal desde la roca?</h2>
       <div class="content">
         <ol>
@@ -288,7 +299,7 @@
     </section>
 
     <!-- 6 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>6. ¿Cómo se asegura que la mina no se derrumbe?</h2>
       <div class="content">
         <ul>
@@ -302,7 +313,7 @@
     </section>
 
     <!-- 7 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>7. ¿Cuáles son los impactos ambientales?</h2>
       <div class="content">
         <ul>
@@ -318,7 +329,7 @@
     </section>
 
     <!-- 8 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>8. ¿Cuáles son los impactos sociales?</h2>
       <div class="content">
         <ul>
@@ -333,7 +344,7 @@
     </section>
 
     <!-- 9 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>9. ¿Qué tecnologías trae la minería 4.0?</h2>
       <div class="content">
         <ul>
@@ -349,7 +360,7 @@
     </section>
 
     <!-- 10 -->
-    <section class="question">
+    <section class="question scroll-fade">
       <h2>10. ¿Para qué usamos los metales?</h2>
       <div class="content">
         <ul>
@@ -389,6 +400,18 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+
     const slides = [];
     document.querySelectorAll('.question').forEach((card, i) => {
       const imgEl = card.querySelector('img');
