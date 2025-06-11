@@ -57,7 +57,8 @@ Paginas web/
    ```
    git clone https://github.com/agulatam/Digginghole.git
    ```
-2. Abre `index.html` en tu navegador.
+2. Abre `index.html` en tu navegador para ver el sitio.
+   Los estilos y las animaciones se encuentran en el mismo archivo como CSS y JavaScript.
 
 ## Licencia
 
