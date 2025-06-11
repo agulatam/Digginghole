@@ -1,0 +1,220 @@
+/* 1. Importar Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto+Slab:wght@700&display=swap');
+
+:root {
+  /* Colores */
+  --bg-page:    #F4F4F1;
+  --bg-header:  #2E3B4E;
+  --bg-card:    #FFFFFF;
+  --text-main:  #333333;
+  --accent-1:   #C07A00;
+  --accent-2:   #A67B5B;
+  --shadow:     rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background: var(--bg-header);
+  color: var(--bg-card);
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 2px 8px var(--shadow);
+  font-family: 'Roboto Slab', serif;
+}
+header h1 {
+  margin: 0 0 .5rem;
+  font-size: 2rem;
+}
+header p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Contenedor principal */
+main {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Tarjetas de pregunta */
+.question {
+  background-color: var(--bg-card);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.question:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+.question h2 {
+  margin: 0;
+  padding: 1rem;
+  background-color: var(--accent-2);
+  color: var(--bg-card);
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.25rem;
+  grid-column: 1 / -1;
+}
+.question .content {
+  padding: 1.5rem;
+}
+.question .content p {
+  margin: 0 0 1rem;
+}
+.question .content ul,
+.question .content ol {
+  margin: 0 0 1.5rem 1.5rem;
+}
+.question img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: -1px; /* quita línea blanca entre texto e imagen */
+  border-radius: 0 0 8px 8px;
+}
+
+@media (min-width: 600px) {
+  .question {
+    grid-template-columns: 2fr 3fr;
+  }
+  .question .content {
+    grid-column: 1 / 2;
+  }
+  .question img {
+    grid-column: 2 / 3;
+    margin-top: 0;
+    border-radius: 0 0 8px 0;
+  }
+}
+
+/* Footer */
+footer {
+  background-color: var(--bg-header);
+  color: var(--bg-card);
+  padding: 2rem 1rem;
+  border-top: 4px solid var(--accent-1);
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 2rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.footer-content p {
+  margin: 0;
+}
+.footer-content strong {
+  color: var(--accent-1);
+}
+
+/* Lightbox overlay */
+#lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.lb-content {
+  position: relative;
+  background: #fefefe;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.lb-slide {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+#lb-img {
+  flex: 1;
+  object-fit: contain;
+  max-height: 90vh;
+}
+#lb-info {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: var(--bg-page);
+}
+.lb-close,
+.lb-nav {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: #20116d;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: .5rem 1rem;
+  z-index: 1;
+}
+.lb-close {
+  top: 0; right: 0;
+  color: var(--accent-1);
+  font-size: 2.5rem;
+}
+.lb-prev {
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+}
+.lb-next {
+  top: 50%; right: 0;
+  transform: translateY(-50%);
+}
+
+/* Scroll fade-in animation */
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.scroll-fade.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Footer enhancements */
+.footer-nav, .social-links {
+  width: 100%;
+}
+.footer-nav a {
+  color: var(--bg-card);
+  margin: 0 0.5rem;
+  text-decoration: none;
+}
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+.social-links a {
+  color: var(--accent-1);
+  margin: 0 0.25rem;
+}
+.contact-info p {
+  margin: .25rem 0;
+}
